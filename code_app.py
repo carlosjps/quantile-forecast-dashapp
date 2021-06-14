@@ -511,6 +511,14 @@ def create_forecast(n_clicks_update, df_uploaded, dropdown_date, dropdown_resp, 
         
         ## Rename columns
         dff = df_upload.rename(columns = {dropdown_date: "ds", dropdown_resp: "y"})
+        
+        ## ds must be datetime type
+        if dff[ds].dtype != 'datetime64':
+          try:
+            dff[ds] = pd.to_datetime(dff[ds])
+          except ValueError:
+            pass
+
             
         dff.set_index("ds", inplace = True, drop = False)
         
